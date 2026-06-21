@@ -1,0 +1,584 @@
+:root {
+  --bg: #061323;
+  --bg-2: #0b2440;
+  --panel: rgba(9, 31, 55, 0.88);
+  --panel-2: rgba(13, 48, 84, 0.82);
+  --line: rgba(118, 207, 255, 0.24);
+  --text: #edf8ff;
+  --muted: #a8c6dd;
+  --cyan: #39d5ff;
+  --blue: #2478ff;
+  --deep-blue: #164fc0;
+  --accent: #ffb84d;
+  --ok: #25c77a;
+  --bad: #ff5a6a;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 16% 12%, rgba(57, 213, 255, 0.18), transparent 28%),
+    radial-gradient(circle at 80% 4%, rgba(36, 120, 255, 0.22), transparent 30%),
+    linear-gradient(145deg, #04101f 0%, #08213d 52%, #061323 100%);
+}
+
+button {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    linear-gradient(rgba(2, 11, 24, 0.76), rgba(2, 11, 24, 0.9)),
+    url("hotel_kitchen_360.jpg") center / cover;
+  transition: opacity 360ms ease, visibility 360ms ease;
+}
+
+.splash-screen.hide {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.splash-core {
+  width: min(560px, 100%);
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(7, 22, 41, 0.84);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.44), inset 0 0 32px rgba(57, 213, 255, 0.08);
+  text-align: center;
+}
+
+.splash-core h1,
+.hero-content h2,
+.info-panel h2,
+.result-shell h2 {
+  margin: 10px 0 14px;
+  line-height: 1.05;
+}
+
+.splash-core h1 {
+  font-size: clamp(2rem, 7vw, 4rem);
+}
+
+.splash-core p,
+.hero-content p,
+.info-panel p,
+.result-shell p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.loader {
+  width: min(340px, 100%);
+  height: 8px;
+  margin: 22px auto;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.loader::before {
+  content: "";
+  display: block;
+  width: 48%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--cyan), var(--blue));
+  animation: loadSweep 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes loadSweep {
+  from { transform: translateX(0); }
+  to { transform: translateX(112%); }
+}
+
+.app-shell {
+  min-height: calc(100vh - 54px);
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px clamp(14px, 3vw, 30px);
+  border-bottom: 1px solid var(--line);
+  background: rgba(4, 16, 31, 0.86);
+  backdrop-filter: blur(14px);
+}
+
+.eyebrow,
+.system-chip {
+  margin: 0;
+  color: var(--cyan);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin: 4px 0 0;
+  font-size: clamp(1.1rem, 2vw, 1.7rem);
+  line-height: 1.12;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 4vw, 3.6rem);
+}
+
+h3 {
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+}
+
+.nav-pills,
+.hero-actions,
+.result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nav-btn,
+.ghost-btn,
+.secondary-btn,
+.primary-btn,
+.action-btn,
+.icon-btn {
+  min-height: 42px;
+  border-radius: 8px;
+  color: var(--text);
+  font-weight: 800;
+}
+
+.nav-btn,
+.ghost-btn,
+.secondary-btn {
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.nav-btn.active,
+.nav-btn:hover,
+.ghost-btn:hover,
+.secondary-btn:hover {
+  border-color: rgba(57, 213, 255, 0.72);
+  background: rgba(57, 213, 255, 0.14);
+}
+
+.primary-btn,
+.action-btn,
+.icon-btn {
+  padding: 0 18px;
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  box-shadow: 0 12px 30px rgba(36, 120, 255, 0.3);
+}
+
+.primary-btn:hover,
+.action-btn:hover,
+.icon-btn:hover {
+  background: linear-gradient(135deg, #74e6ff, var(--deep-blue));
+}
+
+.icon-btn {
+  width: 44px;
+  padding: 0;
+  font-size: 1.3rem;
+}
+
+.page {
+  display: none;
+  min-height: calc(100vh - 116px);
+}
+
+.page.active {
+  display: block;
+}
+
+.hero-page {
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 108px);
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(3, 13, 28, 0.92) 0%, rgba(3, 13, 28, 0.72) 48%, rgba(3, 13, 28, 0.36) 100%),
+    url("hotel_kitchen_360.jpg") center / cover;
+}
+
+.hero-content {
+  position: relative;
+  width: min(780px, 100%);
+  padding: clamp(28px, 7vw, 80px) clamp(16px, 5vw, 58px);
+}
+
+.info-page,
+.result-page {
+  padding: clamp(18px, 4vw, 46px);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+  gap: 18px;
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+
+.info-panel,
+.result-shell,
+.stat,
+.panel-header,
+.question-card,
+.checklist-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 16px 44px rgba(0, 0, 0, 0.24);
+}
+
+.info-panel,
+.result-shell {
+  padding: clamp(18px, 4vw, 34px);
+}
+
+.compact-panel {
+  align-self: start;
+}
+
+.step-list,
+.objective-list {
+  display: grid;
+  gap: 12px;
+  padding-left: 22px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.inspection-page {
+  padding: 14px;
+}
+
+.top-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.stat {
+  padding: 12px;
+}
+
+.stat span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.stat strong {
+  font-size: 1.2rem;
+}
+
+.timer strong {
+  color: var(--accent);
+}
+
+.viewer-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+  gap: 14px;
+}
+
+.scene-panel {
+  position: relative;
+  min-height: 660px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #020b18;
+}
+
+a-scene {
+  width: 100%;
+  height: 100%;
+}
+
+.scene-overlay {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  display: flex;
+  gap: 8px;
+}
+
+.image-notice {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 6;
+  padding: 12px 14px;
+  border-radius: 8px;
+  color: #ffffff;
+  background: rgba(255, 90, 106, 0.9);
+  font-size: 0.92rem;
+}
+
+.mission-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+}
+
+.panel-header,
+.question-card,
+.checklist-card {
+  padding: 16px;
+}
+
+.panel-header p,
+.violation-explain,
+.feedback {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.progress-track {
+  width: 100%;
+  height: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.progress-bar {
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--cyan), var(--accent));
+  transition: width 220ms ease;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  margin-bottom: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: #051322;
+  background: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.options {
+  display: grid;
+  gap: 9px;
+}
+
+.option-btn {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.07);
+  text-align: left;
+  line-height: 1.35;
+}
+
+.option-btn:hover,
+.option-btn:focus-visible {
+  border-color: var(--cyan);
+  outline: none;
+}
+
+.option-btn.correct {
+  border-color: var(--ok);
+  color: #03150d;
+  background: var(--ok);
+}
+
+.option-btn.wrong {
+  border-color: var(--bad);
+  color: #ffffff;
+  background: var(--bad);
+}
+
+.option-btn:disabled {
+  cursor: default;
+}
+
+.checklist {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.checklist li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  font-size: 0.88rem;
+  line-height: 1.3;
+}
+
+.checklist strong {
+  padding: 4px 8px;
+  border-radius: 999px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.72rem;
+}
+
+.checklist li.done-correct {
+  border-color: rgba(37, 199, 122, 0.55);
+  background: rgba(37, 199, 122, 0.14);
+}
+
+.checklist li.done-correct strong {
+  color: #03150d;
+  background: var(--ok);
+}
+
+.checklist li.done-wrong {
+  border-color: rgba(255, 90, 106, 0.58);
+  background: rgba(255, 90, 106, 0.14);
+}
+
+.checklist li.done-wrong strong {
+  color: #ffffff;
+  background: var(--bad);
+}
+
+.result-page {
+  display: none;
+  place-items: center;
+}
+
+.result-page.active {
+  display: grid;
+}
+
+.result-shell {
+  width: min(720px, 100%);
+  text-align: center;
+}
+
+footer {
+  display: grid;
+  place-items: center;
+  min-height: 54px;
+  padding: 12px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  background: rgba(4, 16, 31, 0.92);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 980px) {
+  .topbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .info-grid,
+  .viewer-wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .scene-panel {
+    min-height: 58vh;
+  }
+}
+
+@media (max-width: 620px) {
+  .topbar,
+  .inspection-page {
+    padding: 10px;
+  }
+
+  .nav-pills {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nav-btn {
+    width: 100%;
+  }
+
+  .top-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .scene-panel {
+    min-height: 52vh;
+    border-radius: 10px;
+  }
+
+  .scene-overlay {
+    top: 10px;
+    right: 10px;
+  }
+
+  .mission-panel,
+  .hero-actions,
+  .result-actions {
+    gap: 10px;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
+  }
+}

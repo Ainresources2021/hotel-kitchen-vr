@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AinVR™ Food Safety Series | Hotel Kitchen VR Inspector™</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+</head>
+<body>
+  <div id="splashScreen" class="splash-screen">
+    <div class="splash-core">
+      <span class="system-chip">AinVR™ Food Safety Series</span>
+      <h1>Hotel Kitchen VR Inspector™</h1>
+      <p>Memuatkan simulator latihan audit keselamatan makanan 360°.</p>
+      <div class="loader" aria-hidden="true"></div>
+      <button id="skipSplashBtn" class="ghost-btn" type="button">Masuk Sekarang</button>
+    </div>
+  </div>
+
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">AinVR™ Food Safety Series</p>
+        <h1>Hotel Kitchen VR Inspector™</h1>
+      </div>
+      <nav class="nav-pills" aria-label="Navigasi simulator">
+        <button class="nav-btn active" type="button" data-page="landingPage">Utama</button>
+        <button class="nav-btn" type="button" data-page="howPage">Cara</button>
+        <button class="nav-btn" type="button" data-page="objectivePage">Objektif</button>
+        <button class="nav-btn" type="button" data-page="inspectionPage">VR Audit</button>
+      </nav>
+    </header>
+
+    <section id="landingPage" class="page hero-page active">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-content">
+        <span class="system-chip">Modern Blue Futuristic Training Simulator</span>
+        <h2>Latihan pemeriksaan dapur hotel dalam persekitaran VR 360°.</h2>
+        <p>Kenal pasti 10 pelanggaran keselamatan makanan yang kelihatan dalam panorama dapur sebenar, jawab kuiz, dan dapatkan keputusan audit akhir secara automatik.</p>
+        <div class="hero-actions">
+          <button class="primary-btn" type="button" data-page="howPage">Mula Latihan</button>
+          <button class="secondary-btn" type="button" data-page="inspectionPage">Terus ke VR</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="howPage" class="page info-page">
+      <div class="info-grid">
+        <article class="info-panel">
+          <span class="system-chip">Cara Penggunaan</span>
+          <h2>Ikuti aliran latihan</h2>
+          <ol class="step-list">
+            <li>Tekan butang <strong>Masuk VR Audit</strong> untuk membuka panorama dapur hotel.</li>
+            <li>Gerakkan pandangan atau sentuh skrin untuk mencari hotspot bernombor.</li>
+            <li>Tekan hotspot untuk membaca pelanggaran dan jawab soalan objektif.</li>
+            <li>Lengkapkan 10 hotspot sebelum masa 5 minit tamat.</li>
+            <li>Semak skor akhir dan kategori prestasi audit.</li>
+          </ol>
+          <button class="primary-btn" type="button" data-page="objectivePage">Lihat Objektif</button>
+        </article>
+        <article class="info-panel compact-panel">
+          <h3>Tip Mobile</h3>
+          <p>Gunakan mod landskap untuk ruang pandangan yang lebih luas. Butang skrin penuh dan VR tersedia dalam panel panorama.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="objectivePage" class="page info-page">
+      <div class="info-grid">
+        <article class="info-panel">
+          <span class="system-chip">Objektif Pembelajaran</span>
+          <h2>Selepas simulasi, pelajar dapat:</h2>
+          <ul class="objective-list">
+            <li>Mengenal pasti pencemaran silang, makanan terbuka, sisa makanan dan kawalan perosak.</li>
+            <li>Menjelaskan tindakan pembetulan yang sesuai dalam operasi dapur hotel.</li>
+            <li>Menggunakan senarai semak audit untuk menilai tahap pematuhan kebersihan premis.</li>
+            <li>Menghubungkan pemerhatian visual dengan keputusan skor audit.</li>
+          </ul>
+          <button class="primary-btn" type="button" data-page="inspectionPage">Masuk VR Audit</button>
+        </article>
+        <article class="info-panel compact-panel">
+          <h3>Kriteria Skor</h3>
+          <p>90-100% Cemerlang, 70-89% Memuaskan, 50-69% Kurang Memuaskan, bawah 50% Tidak Memuaskan.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="inspectionPage" class="page inspection-page">
+      <section class="top-stats" aria-label="Status audit">
+        <div class="stat">
+          <span>Skor</span>
+          <strong id="scoreText">0/10</strong>
+        </div>
+        <div class="stat">
+          <span>Kemajuan</span>
+          <strong id="progressText">0/10</strong>
+        </div>
+        <div class="stat">
+          <span>Audit</span>
+          <strong id="auditPercentText">0%</strong>
+        </div>
+        <div class="stat timer">
+          <span>Masa</span>
+          <strong id="timerText">05:00</strong>
+        </div>
+      </section>
+
+      <section class="viewer-wrap">
+        <div class="scene-panel">
+          <a-scene
+            id="scene"
+            embedded
+            vr-mode-ui="enabled: true"
+            loading-screen="enabled: false"
+            renderer="antialias: true; colorManagement: true"
+            cursor="rayOrigin: mouse"
+            raycaster="objects: .hotspot">
+            <a-assets>
+              <img id="kitchenPanorama" src="hotel_kitchen_360.jpg" crossorigin="anonymous" alt="Panorama dapur hotel 360 darjah">
+            </a-assets>
+
+            <a-sky src="#kitchenPanorama" rotation="0 0 0"></a-sky>
+            <a-entity id="hotspotLayer"></a-entity>
+            <a-camera id="camera" position="0 1.6 0" look-controls="reverseMouseDrag: false">
+              <a-cursor
+                fuse="true"
+                fuse-timeout="900"
+                geometry="primitive: ring; radiusInner: 0.008; radiusOuter: 0.014"
+                material="color: #ffffff; shader: flat; opacity: 0.9">
+              </a-cursor>
+            </a-camera>
+          </a-scene>
+
+          <div class="scene-overlay">
+            <button id="fullscreenBtn" class="icon-btn" type="button" title="Skrin penuh" aria-label="Skrin penuh">&#x26F6;</button>
+            <button id="vrBtn" class="action-btn" type="button">Masuk VR</button>
+          </div>
+        </div>
+
+        <aside class="mission-panel" aria-label="Panel pemeriksaan">
+          <div class="panel-header">
+            <p id="statusText">Tekan Mula Audit, kemudian cari hotspot amaran pada panorama dapur hotel.</p>
+            <div class="progress-track" aria-hidden="true">
+              <div id="progressBar" class="progress-bar"></div>
+            </div>
+            <button id="startBtn" class="primary-btn" type="button">Mula Audit 5 Minit</button>
+          </div>
+
+          <div id="questionCard" class="question-card" hidden>
+            <span id="violationTag" class="tag">Hotspot</span>
+            <h2 id="violationTitle">Tajuk Pelanggaran</h2>
+            <p id="violationExplain" class="violation-explain"></p>
+            <h3 id="questionTitle">Soalan</h3>
+            <div id="options" class="options"></div>
+            <p id="feedback" class="feedback" aria-live="polite"></p>
+          </div>
+
+          <div class="checklist-card">
+            <h2>Senarai Semak Pemeriksaan</h2>
+            <ul id="checklist" class="checklist"></ul>
+          </div>
+        </aside>
+      </section>
+    </section>
+
+    <section id="resultPage" class="page result-page">
+      <div class="result-shell">
+        <span class="system-chip">Keputusan Audit Akhir</span>
+        <h2 id="resultCategory">Cemerlang</h2>
+        <p id="resultSummary"></p>
+        <div class="result-actions">
+          <button id="restartBtn" class="primary-btn" type="button">Restart Audit</button>
+          <button class="secondary-btn" type="button" data-page="landingPage">Kembali ke Utama</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>AinVR™ Food Safety Series | Hotel Kitchen VR Inspector™ | © Ts. Siti Nurul Ain Saipullizan 2026</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
